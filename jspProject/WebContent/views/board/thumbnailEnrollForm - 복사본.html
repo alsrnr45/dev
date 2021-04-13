@@ -1,0 +1,87 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style>
+    .outer{
+        background: black;
+        color:white;
+        width: 1000px;
+        height: 700px;
+        margin:auto;
+        margin-top: 50px;
+    }
+
+    #enrollForm table{border:1px solid white;}
+    #enrollForm input, #enrollForm textarea{
+        width: 100%;
+        box-sizing: border-box;
+    }
+</style>
+</head>
+<body>
+	<%@ include file="../common/menubar.jsp" %>
+	<div class="outer">
+        <br>
+        <h2 align="center">사진게시판 작성하기</h2>
+
+        <form action="" id="enrollForm" method="post" enctype="multipart/form-data">
+            <table align="center">
+                <tr>
+                    <th width="100">제목</th>
+                    <td colspan="3"><input type="text" name="title" id=""></td>
+                </tr>
+
+                <tr>
+                    <th width="100">내용</th>
+                    <td colspan="3">
+                        <textarea rows="5" name="content" style="resize:none" required></textarea>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th width="100">대표이미지</th>
+                    <td colspan="3" align="center">
+                        <!-- 대표이미지 미리보기할 img -->
+                        <img id="titleImg" width="250" height="170">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>상세이미지</th>
+                    <!-- 상세이미지를 미리보기 할 img -->
+                    <td><img id="titleImg" width="250" height="170"></td>
+                    <td><img id="titleImg" width="250" height="170"></td>
+                    <td><img id="titleImg" width="250" height="170"></td>
+                </tr>
+            </table>
+            
+            <div class="fileArea">
+                <input type="file" name="file1" id="file1" onchange="loadImg(this, 1);">
+                <input type="file" name="file2" id="file2" onchange="loadImg(this, 2);">
+                <input type="file" name="file3" id="file3" onchange="loadImg(this, 3);">
+                <input type="file" name="file4" id="file4" onchange="loadImg(this, 4);">
+            </div>
+            
+            <script>
+                function loadImg(inputFile, num){
+                    // inputFile: 현재 변화가 생긴 input type = "file" 요소객체
+                    // num : 몇번째 input요소인지 확인 후 해당 그 영역에 미리보기 하기 위해 
+
+                    // 파일을 선택하는 순간, inputFile.files(속성배열) 라는 속성배열에 0번 인덱스에 파일 담김
+                    console.log(inputFile.files); 
+                }
+            </script>
+
+            <br>
+            <div align="center">
+                <button type="submit">등록하기</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

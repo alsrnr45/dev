@@ -1,0 +1,10 @@
+package com.kh.board.model.service;
+
+public class BoardService {
+
+	public int selectListCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

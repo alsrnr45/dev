@@ -1,0 +1,58 @@
+package com.kh.board.model.service;
+
+import static com.kh.common.JDBCTemplate.*;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+
+import com.kh.board.model.dao.BoardDao;
+import com.kh.board.model.vo.Attachment;
+import com.kh.board.model.vo.Board;
+import com.kh.common.model.vo.PageInfo;
+public class BoardService {
+
+	public int selectListCount() {
+		Connection conn = getConnection();
+		int listCount = new BoardDao().selectListCount(conn);
+		
+		close(conn);
+		
+		return listCount;
+	}
+
+	public ArrayList<Board> selectList(PageInfo pi) {
+		Connection conn = getConnection();
+		ArrayList<Board> list = new BoardDao().selectList(conn, pi);
+		
+		close(conn);
+		return list;
+	}
+
+	public int insertBoard(Board b, Attachment at) {
+		Connection conn = getConnection();
+		
+		int result1 = new BoardDao().insertBoard(conn, b);
+		//  board테이블에 insert하는 dao메소드;
+		
+		int result2 = 1;
+		// attachment 테이블이 없블경우 기본 1로 반환
+		
+		if(at != null) { // 첨부파일이 있었을 경우에만 실행될 메소드
+			result2 = new BoardDao().insertAttachment(conn, at);
+			// attachment 테이블에 insert하는 dao 메소드
+			// 성공하면 1로 반환, 실패하면 0으로 반환
+		}
+		
+		if(result1 > 0 && result2 > 0) {
+			// 기본 1값으로 초기화했기때문에 attachment가 없을 경우 실행, 
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result1 * result2;
+	}
+
+}

@@ -1,0 +1,74 @@
+package com.kh.board.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
+import com.kh.board.model.vo.Board;
+import com.kh.common.MyFileRenamePolicy;
+import com.oreilly.servlet.MultipartRequest;
+
+/**
+ * Servlet implementation class BoardUpdateServlet
+ */
+@WebServlet("/update.bo")
+public class BoardUpdateServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public BoardUpdateServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		
+		if(ServletFileUpload.isMultipartContent(request)) {
+			 
+			// 1_1. 전송되는 파일 용량 제한(int maxSize)
+			int maxSize = 10 * 1024 * 1024;
+			
+			// 1_2. 전송되는 파일을 저장시킬 서버의 폴더 물리적인 경로(String savePath)
+			String savePath = request.getSession().getServletContext().getRealPath("/resources/board_upfiles/");
+			
+//			// 2. HttpServletRequest request => MultipartRequest multiRequest
+			MultipartRequest multiRequest  = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
+			
+			// 3. 본격적인 sql문 실행하기 위해 요청시 전달된 값 뽑기
+			// 3_1. 첨부파일과는 무관하게 Board 테이블에 Update할 값 뽑기
+			int boardNo = Integer.parseInt(request.getParameter("bno"));
+			String category = request.getParameter("categoryNo");
+			String boardTitle = multiRequest.getParameter("title");
+			String boardContent = multiRequest.getParameter("content"); 
+			String boardWriter = multiRequest.getParameter("userNo");
+			
+			Board b = new Board();
+			b.setBoardNo(boardNo);
+			b.setCategoryNo(category);
+			b.setBoardTitle(boardTitle);
+			b.setBoardContent(boardContent);
+			b.setBoardWriter(boardWriter);
+		}
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
