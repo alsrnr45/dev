@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
-<fullyQualifiedTypeName name="com.kh.member.model.service.MemberService"/>
 <fullyQualifiedTypeName name="java.sql.Connection"/>
 <fullyQualifiedTypeName name="com.kh.notice.model.dao.NoticeDao"/>
 <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
@@ -22,4 +21,8 @@
 <fullyQualifiedTypeName name="com.kh.board.model.vo.Board"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="com.kh.board.model.vo.Attachment"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="com.kh.member.model.service.MemberService"/>
+<fullyQualifiedTypeName name="com.kh.model.vo.User"/>
+<fullyQualifiedTypeName name="org.json.simple.JSONObject"/>
 </qualifiedTypeNameHistroy>

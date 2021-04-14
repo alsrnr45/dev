@@ -153,7 +153,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="C:\dev\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ROOT" path="" reloadable="false"/><Context docBase="C:\dev\jspProject\WebContent" path="/jsp" reloadable="true" source="org.eclipse.jst.jee.server:jspProject"><Resources><PreResources base="C:\dev\jspProject\WebContent\WEB-INF\classes" classLoaderOnly="false" className="org.apache.catalina.webresources.DirResourceSet" internalPath="/" webAppMount="/WEB-INF/classes"/></Resources></Context></Host>
+      <Context docBase="C:\dev\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ROOT" path="" reloadable="false"/><Context docBase="C:\dev\jspProject\WebContent" path="/jsp" reloadable="true" source="org.eclipse.jst.jee.server:jspProject"><Resources><PreResources base="C:\dev\jspProject\WebContent\WEB-INF\classes" classLoaderOnly="false" className="org.apache.catalina.webresources.DirResourceSet" internalPath="/" webAppMount="/WEB-INF/classes"/></Resources></Context><Context docBase="C:\dev\ajaxProject\WebContent" path="/ajax" reloadable="true" source="org.eclipse.jst.jee.server:ajaxProject"><Resources><PreResources base="C:\dev\ajaxProject\WebContent\WEB-INF\classes" classLoaderOnly="false" className="org.apache.catalina.webresources.DirResourceSet" internalPath="/" webAppMount="/WEB-INF/classes"/></Resources></Context></Host>
     </Engine>
   </Service>
 </Server>
