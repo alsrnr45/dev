@@ -192,6 +192,52 @@
 		}
 	</script>
 	
+	<h3> 4. 응답데이터로 여러개의 객체들이 담겨있는 ArrayList응답하기</h3>
+	<button onclick="test4();">회원 전체 조회</button>
+	<br><br>
+	
+	<table id="memberList1" border="1">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>이름</th>
+				<th>나이</th>
+				<th>성별</th>
+			</tr>
+		</thead>	
+		<tbody>
+	
+		</tbody>	
+	</table>
+	<script>
+		function test4(){
+			$.ajax({
+				url:"jqAjax4.do",
+				success: function(list){
+					
+					console.log(list);
+					
+					var result ="";
+					for (var i in list){
+						result += "<tr>" 
+							    + 	"<td>" + list[i].no + "</td>"
+							    +   "<td>" + list[i].name + "</td>"
+							    +   "<td>" + list[i].age + "</td>"
+							    +   "<td>" + list[i].gender + "</td>"
+							    + "</tr>";
+					}
+					
+					$("#memberList1 tbody").html(result);
+				
+				},
+				error: function(){
+					console.log("ajax 통신 실패");
+				}
+			});
+			
+		}
+	</script>
+	
 	
 </body>
 </html>

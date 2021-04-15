@@ -89,40 +89,90 @@
                     <tr>
                         <th>댓글작성</th>
 
-                        <!-- 로그인 전 일 경우 
+                        <!-- 로그인 전 일 경우 -->
+                        <%if(loginUser == null){ %>
                         <td><textarea cols="50" rows="3" style="resize:none" readonly>로그인 후 이용가능한 서비스입니다.</textarea></td>
                         <td><button disabled>댓글등록</button></td>
-						-->
-						
+						<%} else { %>
                         <!-- 로그인 후 일 경우 -->
-                        <td><textarea cols="50" rows="3" style="resize:none" ></textarea></td>
-                        <td><button>댓글등록</button></td>
+                        <td><textarea id="replyContent" cols="50" rows="3" style="resize:none" ></textarea></td>
+                        <td><button onclick="addReply();">댓글등록</button></td>
+                        <% } %>
                     </tr>
                 </thead>
-
                 <tbody>
-                    <tr>
-                        <td>admin</td>
-                        <td>댓글내용</td>
-                        <td>2021년 04월 08일</td>
-                    </tr>
-                    
-                    <tr>
-                        <td>admin</td>
-                        <td>댓글내용</td>
-                        <td>2021년 04월 08일</td>
-                    </tr>
-
-                    <tr>
-                        <td>admin</td>
-                        <td>댓글내용</td>
-                        <td>2021년 04월 08일</td>
-                    </tr>
+                
                 </tbody>
             </table>
             <br><br>
-
         </div>
     </div>
+    
+    <script>
+    	
+    	
+    	// 게시글의 댓글리스트를 조회해오는 함수
+    	$(function(){
+    		selectReplyList();
+    		
+    		//setInterval(selectReplyList , 10000);
+    		// 10초단위마다 매번 실행할 함수(주기적 실시간으로 갱신된 댓글리스트 조회요청)
+    		
+    		
+    	})
+    	
+    	// 해당 게시글에 댓글 작성용 ajax
+    	
+    	// 요청시 회원번호는 넘기지 않을거임! 서블릿에서 작업할거임
+    	function addReply(){
+    		$.ajax({
+    			url: "<%=contextPath%>/rinsert.bo",
+    			type: "post",
+    			data: {
+    				content:$("#replyContent").val(), // content라는 key값으로 id가 replyContent인 값을 넘기겠다.
+    				bno:<%=b.getBoardNo()%> // bno라는 key값으로 board객체에 BoardNo값을 가져오겠다.
+    				<%-- userNo:<%=loginUser.getUserId()%> loginUser가 null값으로 존재할 수 있기 때문에 nullpoint익셉션 발생가능--%> 
+    			},
+    			success:function(result){
+    				if(result > 0){
+    					// 댓글 성공하면 내가 쓴 댓글이 최상단에 붙여지기 (갱신된 리스트 다시 조회해서 뿌려줘야함)
+    					selectReplyList();
+    					// 깔끔하게 입력했던 textarea의 내용도 비워줘야 함 => replyContent에 ""로 깔끔하게 비워줌
+    					$("#replyContent").val("");
+    				} else{
+    					// 댓글 실패
+    				}
+    			},
+    			error:function(){
+    				console.log("댓글 작성용 ajax 통신 실패");
+    			}
+    		})
+    	}
+    	
+    	// 해당  게시글에 딸린 댓글리스트 조회용 ajax
+    	function selectReplyList(){
+    		
+    		$.ajax({
+    			url: "<%=contextPath%>/rlist.bo",
+    			data: {bno:<%=b.getBoardNo()%>},
+    			success:function(list){
+    				var result ="";
+    				for (var i in list){
+						result += "<tr>" 
+							    + 	"<td>" + list[i].replyWriter + "</td>"
+							    +   "<td>" + list[i].replyContent + "</td>"
+							    +   "<td>" + list[i].createDate + "</td>"
+							    + "</tr>";
+					}
+    				
+    				$("#replyArea tbody").html(result);
+    			},
+    			error:function(){
+    				console.log("댓글 리스트 조회용 ajax 통신 실패");
+    			}
+    			
+    		});
+    	}
+    </script>
 </body>
 </html>

@@ -11,6 +11,7 @@ import java.util.Properties;
 
 import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
+import com.kh.board.model.vo.Reply;
 import com.kh.common.model.vo.PageInfo;
 
 import static com.kh.common.JDBCTemplate.*;
@@ -430,6 +431,67 @@ public class BoardDao {
 		}
 		
 		return list;
+	}
+	
+	public ArrayList<Reply> selectReplyList(Connection conn, int boardNo){
+		//select문 => ResultSet객체
+		ArrayList<Reply> list = new ArrayList<>();
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectReplyList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, boardNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Reply rp = new Reply();
+				list.add(new Reply(rset.getInt("reply_no"),
+								   rset.getString("reply_content"),
+								   rset.getString("user_id"),
+								   rset.getDate("create_date")
+									));
+				// Reply객체 저 4개 포함해서 생성자 만들기
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public int insertReply(Connection conn, Reply r) {
+		// insert문
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertReply");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, r.getReplyContent());
+			pstmt.setInt(2, r.getRefBno());
+			pstmt.setInt(3,Integer.parseInt(r.getReplyWriter()));
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 	
 }
